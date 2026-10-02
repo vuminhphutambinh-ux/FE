@@ -1,0 +1,223 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --blade-ease: cubic-bezier(0.77, 0, 0.175, 1);
+    --blade-duration: 750ms;
+    --blade-angle: 7.5deg;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: radial-gradient(circle at 10% 20%, #153328 0%, #071712 100%);
+    min-height: 100vh;
+    color: #1b2923;
+  }
+}
+
+.font-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-sans {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Ambient noise and dot mesh pattern */
+.bg-mesh-pattern {
+  background-image: radial-gradient(rgba(200, 163, 90, 0.12) 1.2px, transparent 0);
+  background-size: 28px 28px;
+}
+
+/* Auth card outer glow & luxury depth */
+.auth-card {
+  box-shadow: 
+    0 25px 70px -15px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(200, 163, 90, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* Desktop Blade Skew & Clip Polygon */
+@media (min-width: 768px) {
+  .blade-panel {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #0e2e24 0%, #071c15 100%);
+    transition: clip-path var(--blade-duration) var(--blade-ease);
+    will-change: clip-path;
+  }
+
+  /* In Sign In mode: Dark blade is on the left half */
+  .state-signin .blade-panel {
+    clip-path: polygon(0 0, 56% 0, 44% 100%, 0% 100%);
+  }
+
+  /* In Sign Up mode: Dark blade sweeps to the right half! */
+  .state-signup .blade-panel {
+    clip-path: polygon(44% 0, 100% 0, 100% 100%, 56% 100%);
+  }
+
+  /* Gold accent line along the blade cut */
+  .blade-line {
+    position: absolute;
+    top: -10%;
+    bottom: -10%;
+    width: 2px;
+    background: linear-gradient(
+      180deg, 
+      rgba(200, 163, 90, 0) 0%, 
+      rgba(200, 163, 90, 0.95) 25%, 
+      rgba(255, 246, 225, 1) 50%, 
+      rgba(200, 163, 90, 0.95) 75%, 
+      rgba(200, 163, 90, 0) 100%
+    );
+    box-shadow: 
+      0 0 12px rgba(200, 163, 90, 0.7),
+      0 0 24px rgba(200, 163, 90, 0.3);
+    transition: left var(--blade-duration) var(--blade-ease), transform var(--blade-duration) var(--blade-ease);
+    will-change: left, transform;
+    pointer-events: none;
+    z-index: 25;
+  }
+
+  .state-signin .blade-line {
+    left: 50%;
+    transform: rotate(calc(-1 * var(--blade-angle, 7.5deg))) scaleY(1.18);
+  }
+
+  .state-signup .blade-line {
+    left: 50%;
+    transform: rotate(var(--blade-angle, 7.5deg)) scaleY(1.18);
+  }
+}
+
+/* Mobile responsive fallback */
+@media (max-width: 767px) {
+  .blade-panel {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, #0e2e24 0%, #071c15 100%);
+    transition: clip-path var(--blade-duration) var(--blade-ease);
+  }
+  .state-signin .blade-panel {
+    clip-path: polygon(0 0, 100% 0, 100% 34%, 0 40%);
+  }
+  .state-signup .blade-panel {
+    clip-path: polygon(0 0, 100% 0, 100% 40%, 0 34%);
+  }
+  .blade-line {
+    display: none;
+  }
+}
+
+/* Floating input underline styling */
+.underline-input-group {
+  position: relative;
+}
+
+.underline-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid #d8d0c1;
+  padding: 0.7rem 2.25rem 0.7rem 0.2rem;
+  font-size: 0.95rem;
+  color: #1a2c24;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: border-color 0.25s ease;
+  outline: none;
+}
+
+.underline-input:focus {
+  border-bottom-color: #0e2e24;
+}
+
+.underline-input.has-error {
+  border-bottom-color: #dc2626 !important;
+}
+
+.input-accent-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: #c8a35a;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.underline-input:focus ~ .input-accent-bar {
+  width: 100%;
+}
+
+.underline-input.has-error ~ .input-accent-bar {
+  background: #dc2626;
+  width: 100%;
+}
+
+/* Custom Checkbox */
+.custom-checkbox {
+  appearance: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 1.5px solid #a49e91;
+  border-radius: 4px;
+  background: #fff;
+  display: inline-grid;
+  place-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-checkbox:checked {
+  background: #0e2e24;
+  border-color: #0e2e24;
+}
+
+.custom-checkbox:checked::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.75rem;
+  border: solid #c8a35a;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+.custom-checkbox:focus-visible {
+  outline: 2px solid #c8a35a;
+  outline-offset: 2px;
+}
+
+/* Elegant Pill Button */
+.btn-forest-pill {
+  background: linear-gradient(135deg, #0e2e24 0%, #092119 100%);
+  box-shadow: 0 10px 22px -6px rgba(14, 46, 36, 0.45), 0 0 0 1px rgba(200, 163, 90, 0.25);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.btn-forest-pill:hover {
+  background: linear-gradient(135deg, #143e31 0%, #0d2c22 100%);
+  box-shadow: 0 14px 28px -6px rgba(14, 46, 36, 0.6), 0 0 16px rgba(200, 163, 90, 0.4);
+  transform: translateY(-1px);
+}
+.btn-forest-pill:active {
+  transform: translateY(1px);
+}
+
+/* Headline gold underline */
+.gold-underline {
+  position: relative;
+  display: inline-block;
+}
+.gold-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 44px;
+  height: 3px;
+  background: #c8a35a;
+  border-radius: 9999px;
+}

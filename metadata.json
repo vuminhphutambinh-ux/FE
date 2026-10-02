@@ -1,0 +1,6 @@
+{
+  "name": "Maison Aurelia — Diagonal Blade Transition & Curated Workspace",
+  "description": "High-craft luxury authentication featuring diagonal blade transitions, curated spaces, and personal creative focus studio.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
